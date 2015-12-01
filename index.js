@@ -4,12 +4,14 @@
 //     MIT License - http://opensource.org/licenses/mit-license.php
 (function() {
 	var path = require('path');
+	var fs = require('fs');
 	function nexport(app,root,exports) {
-		app.get(root + '/*', function(req, res){
+		//console.log(root)
+		app.get('/node_modules/*', function(req, res){
 			var file = path.basename(req.url);
 			console.log(file)
 			if(exports.indexOf(file)>=0) {
-				var filepath = path.join(__dirname, req.url);
+				var filepath = path.join(root, req.url);
 				var packagepath = path.join(filepath,"package.json");
 				fs.readFile(packagepath, 'utf8', function(err,data) { // read package and send main file
 					var pkg = JSON.parse(data);
