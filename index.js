@@ -6,7 +6,6 @@
 	var path = require('path');
 	var fs = require('fs');
 	function nexport(app,root,exports) {
-		//console.log(root)
 		app.get('/node_modules/*', function(req, res){
 			var file = path.basename(req.url);
 			console.log(file)
@@ -15,7 +14,8 @@
 				var packagepath = path.join(filepath,"package.json");
 				fs.readFile(packagepath, 'utf8', function(err,data) { // read package and send main file
 					var pkg = JSON.parse(data);
-					var file = path.resolve(filepath,(pkg.main.lastIndexOf(".js")===pkg.main.length-3 ? pkg.main : pkg.main + ".js"));
+					var filename = (pkg.browser ? pkg.browser : pkg.main);
+					var file = path.resolve(filepath,(filename.lastIndexOf(".js")===filename.length-3 ? filename : filename + ".js"));
 					res.sendFile(file);
 				});
 			} else {
