@@ -3,6 +3,7 @@
 //     Copyright (c) 2015 Simon Y. Blackwell, AnyWhichWay
 //     MIT License - http://opensource.org/licenses/mit-license.php
 (function() {
+	var path = require('path');
 	function nexport(app,root,exports) {
 		app.get(root + '/*', function(req, res){
 			var file = path.basename(req.url);

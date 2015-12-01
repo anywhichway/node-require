@@ -1,8 +1,9 @@
 {
   "name": "node-require",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An Express addin to export node modules to the client and a supporting CommonJS browser require ",
   "main": "index.js",
+  "browser": "./js/require.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
