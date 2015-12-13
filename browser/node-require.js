@@ -73,7 +73,7 @@ R = (function (document, undefined) {
 
         var request = new XMLHttpRequest();
         request.onload = function (deps, count) {
-            if (request.status == 200 || module.t) {
+            if (request.status === 200 || module.t) {
                 // Should really use an object and then Object.keys to avoid
                 // duplicate dependencies. But that costs bytes.
                 deps = [];
@@ -86,7 +86,11 @@ R = (function (document, undefined) {
                     // are no dependencies. Putting this check first
                     // and the decrement after saves us an `if` for that
                     // special case
-                    count-- || callback(undefined, module);
+                    //count-- || callback(undefined, module);
+                	// Codacy driven unused code improvement Dec 2015, AnyWhichWay
+                	if(count--===0) {
+                		callback(undefined, module);
+                	}
                 }
                 deps.map(function (dep) {
                     deepLoad(
@@ -95,7 +99,7 @@ R = (function (document, undefined) {
                         // If it doesn't begin with a ".", then we're searching
                         // node_modules, so pass in the info to make this
                         // possible
-                        dep[0] != "." ? location + "/../" : undefined,
+                        dep[0] !== "." ? location + "/../" : undefined,
                         dep
                     );
                 });
@@ -145,12 +149,12 @@ R = (function (document, undefined) {
         // If 2 arguments are given, then we are resolving modules...
         if (relative) {
             baseElement.href = baseOrModule;
-            // modified by AnyWhichWay to support relative paths Nov 2016
+            // modified by AnyWhichWay to support relative paths Nov 2015
             if(relative.indexOf("..")===0) { // handle simple relative paths
             	var baseparts = baseOrModule.split("/"), relativeparts = relative.split("/");
             	baseparts.pop();
             	relativeparts.every(function(part) {
-            		if(part=="..") {
+            		if(part==="..") {
             			baseparts.pop();
             			relativeparts.shift();
             			return true;
@@ -161,10 +165,10 @@ R = (function (document, undefined) {
             	}
             	relativeElement.href = relativeparts.join("/");
             	
-            } else if(relative[0]==".") { // handle same directory
+            } else if(relative[0]===".") { // handle same directory
             	relativeElement.href = relative;
             }
-            if(relative[0]==".") { // .. or .
+            if(relative[0]===".") { // .. or .
             	resolved = (relativeElement.href.lastIndexOf(".js")===relativeElement.href.length-3 ? relativeElement.href : relativeElement.href + ".js");
             } else {
             	// modified by AnyWhichWay Nov 2015 to support node-export
@@ -180,12 +184,12 @@ R = (function (document, undefined) {
 
         // ...otherwise we are getting the exports
 
-        // Is this module is a redirect to another one?
+        // Is this module a redirect to another one?
         if (baseOrModule.n) {
             return resolveModuleOrGetExports(baseOrModule.n);
         }
 
-        baseOrModule[tmp] ||
+       /* baseOrModule[tmp] ||
         	//globalEval("(function(require,"+tmp+",module){" + baseOrModule.t + "\n})//# sourceURL=" + baseOrModule.l)
         	// modified by AnyWhichWay Nov 2015 to eliminate eval
             (baseOrModule.f || new Function("return (function(require,"+tmp+",module){" + baseOrModule.t + "\n})//# sourceURL=" + baseOrModule.l)())(
@@ -195,25 +199,39 @@ R = (function (document, undefined) {
                 baseOrModule[tmp] = {}, // exports
                 baseOrModule // module
             );
-
+		*/
+        if(!baseOrModule[tmp]) {
+	    	//globalEval("(function(require,"+tmp+",module){" + baseOrModule.t + "\n})//# sourceURL=" + baseOrModule.l)
+	    	// modified by AnyWhichWay Dec 2015 to eliminate Codacy unused code warning
+	        var f = (baseOrModule.f ? baseOrModule.f : new Function("return (function(require,"+tmp+",module){" + baseOrModule.t + "\n})//# sourceURL=" + baseOrModule.l)());
+	        f(function require (id) {
+	                return resolveModuleOrGetExports(resolveModuleOrGetExports(baseOrModule.l, id));
+	            }, // require
+	            baseOrModule[tmp] = {}, // exports
+	            baseOrModule // module
+	        );
+        }
         return baseOrModule[tmp];
     }
 
     function R(id, callback) {
-        // If id has a `call` property it is a function, so make a module with
-        // a factory
+        // If id has a `call` property it is a function, so make a module with a factory
         deepLoad(id.call ? {l: "", t: "" + id, f: id} : resolveModuleOrGetExports("", id), function (err, module) {
             try {
                 id = resolveModuleOrGetExports(module);
             } catch (_err) {
                 err = _err
             }
-            !callback || callback(err, id);
+            if(callback) {
+            	callback(err, id);
+            }
         });
     }
 
     var main = document.querySelector("script[data-main]");
-    !main || R(main.dataset.main);
+    if(main) {
+    	R(main.dataset.main);
+    }
     tmp = "exports";
 
     return R;
