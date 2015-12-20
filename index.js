@@ -19,7 +19,7 @@
 					res.sendFile(file);
 				});
 			} else {
-				res.send('{}');
+				res.status(404).send('Not found');
 			}
 		});
 	}
