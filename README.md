@@ -7,6 +7,8 @@ npm install node-require
 
 # updates (reverse chronological order)
 
+2015-12-19 v0.0.7 Add client side console logging for errors
+
 2015-12-19 v0.0.6 Now sends 404 Not Found if package is not exported
 
 2015-12-13 v0.0.5 Codacy driven improvements

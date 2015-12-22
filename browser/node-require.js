@@ -224,6 +224,8 @@ R = (function (document, undefined) {
             }
             if(callback) {
             	callback(err, id);
+            } else {
+            	console.log(err,id);
             }
         });
     }

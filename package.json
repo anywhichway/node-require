@@ -1,6 +1,6 @@
 {
   "name": "node-require",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "An Express addin to export node modules to the client and a supporting CommonJS browser require ",
   "main": "./index.js",
   "browser": "./browser/node-require.js",
