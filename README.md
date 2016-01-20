@@ -69,6 +69,8 @@ By convention modules do not have *.js* extensions. *node-require* uses this con
 
 # Updates (reverse chronological order)
 
+2016-01-20 v0.0.10 Corrected reference to client code in package.json. 
+
 2016-01-20 v0.0.9 Updated README documentation. Swapped in *Smoothie require.js* in place of modified *require1k.js* due to conflicts with *browserified* bundles. *Smoothie require.js* is also far easier to trace through if ever needed. Made modifications to more cleanly load module files from */<script/>* tags and better handle missing files. Added the options object for server side configuration.
 
 2016-01-18 v0.0.8 Updated README documentation. Eliminated conflict with browserify by changing key in package.json to be *client:* instead of *browser:*.
