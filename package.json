@@ -1,11 +1,12 @@
 {
   "name": "node-require",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "An Express addin to export node modules to the client and a supporting CommonJS browser require ",
   "main": "./index.js",
-  "browser": "./browser/node-require.js",
+  "browser": "./browser/require.js",
+  "isomorphic":false,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "minify": "minify browser/require.js"
   },
   "repository": {
     "type": "git",
@@ -15,10 +16,11 @@
     "CommonJS",
     "node_modules",
     "export",
-    "modules"
+    "modules",
+    "express"
   ],
   "author": "Simon Y. Blackwell <syblackwell@anywhichway.com> (http://www.github.com/anywhichway)",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/anywhichway/node-require/issues"
   },
