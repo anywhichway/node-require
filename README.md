@@ -28,7 +28,7 @@ Add this line to the top of an HTML file into which you wish to load node module
 <script src="node-require"></script>
 ```
 
-You can then require any of the modules you have exported using normal require syntax along with other Javascript code, e.g.
+You can then require any of the modules you have exported using normal require syntax along with other JavaScript code, e.g.
 
 ```
 <script>
@@ -63,7 +63,7 @@ By convention modules do not have *.js* extensions. *node-require* uses this con
 
 # Philosophy
 
-*node-require* was developed as an easy way to ensure that you are running the same version of Javascript code on the client and the server without having to implement a build process or manual steps to copy files.
+*node-require* was developed as an easy way to ensure that you are running the same version of JavaScript code on the client and the server without having to implement a build process or manual steps to copy files.
 
 *node-require* could be extended to kick-off on demand build or file generation processes. For example to fool bots trying to analyze a site a seeded minify/uglify library could be used to regenerate the client side code differently for each request.
 
